@@ -81,8 +81,8 @@ export class Movie {
     this.frameData.forEach((frame) => {
       let leds = frame.leds;
       if (isCompressed) {
-        leds = frame.leds.filter((led) =>
-          led.red && led.green && led.blue && (led.white || this._channels === 3)
+        leds = frame.leds.filter(
+          (led) => led.red || led.green || led.blue || led.white
         );
       }
       let numNonBlackLeds = leds.length;
