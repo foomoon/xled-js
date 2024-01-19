@@ -6,9 +6,9 @@ import delay from "delay";
 // dynamically import udp for compatibility with browser
 // import * as udp from "node:dgram";
 
-import type { Led } from "./led";
-import type { Frame } from "./frame";
-import type { Movie } from "./movie";
+import { Led } from "./led";
+import { Frame } from "./frame";
+import { Movie } from "./movie";
 
 import {
   rgbColor,
