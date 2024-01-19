@@ -1,14 +1,14 @@
 import { generateRandomHex } from "./utils.js";
 
 import axios, { AxiosInstance, AxiosResponse } from "axios";
-import FetchWrapper, { FetchResponse } from "./fetchwrapper.js";
+import FetchWrapper, { FetchResponse } from "./fetchwrapper";
 import delay from "delay";
 // dynamically import udp for compatibility with browser
 // import * as udp from "node:dgram";
 
-import { Led } from "./led.js";
-import { Frame } from "./frame.js";
-import { Movie } from "./movie.js";
+import type { Led } from "./led";
+import type { Frame } from "./frame";
+import type { Movie } from "./movie";
 
 import {
   rgbColor,
@@ -18,7 +18,7 @@ import {
   timer,
   coordinate,
   layout,
-} from "./interfaces.js";
+} from "./interfaces";
 
 // create error
 let errNoToken = Error("No valid token");
