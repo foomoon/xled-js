@@ -3,16 +3,25 @@ import { Light, Frame, Movie, Led } from "../dist/index.js";
 async function run() {
   // instantiate the device
   console.log("Creating device...");
-  const addresses = ["192.168.4.1", "192.168.1.164"];
-  const device = new Light(addresses[1]);
-
-  let movie = makeMovie();
+  const device = new Light(addresses[0]);
 
   // must login before sending commands
   console.log("Logging in...");
   await device.login();
+
+  const details = await device.getDeviceDetails();
+  const nLeds = await device.getNLeds();
   // get the device name
   console.log(`This device is called ${await device.getName()}`);
+
+  // Create a movie
+  let movie = makeMovie({
+    nLeds,
+    nFrames: nLeds + 20,
+    tailLength: 20,
+    type: details.led_profile?.toLowerCase() || 'rgb',
+  });
+
   // adjust brightness
   console.log("Set device to full brightness");
   await device.setBrightness(100);
@@ -42,16 +51,21 @@ async function run() {
 
 run();
 
-function makeMovie() {
-  const nLeds = 600;
-  const nFrames = 600;
-  const tailLength = 15;
-  const black = new Led(0, 0, 0);
-  const fps = 15;
+function makeMovie({
+  nLeds = 600,
+  nFrames = 250,
+  tailLength = 15,
+  type = "rgb",
+  fps = 15,
+} = {}) {
+  const rgbw = type === "rgbw";
+  const black = rgbw
+    ? new Led(0, 0, 0, 0)
+    : new Led(0, 0, 0);
   const frames = [];
   const saturationFactor = 0.5;
-  const nBufferFrames = 3 * fps;
-  const step = 3;
+  const step = 5; // skip frames to make movie shorter
+  const nBufferFrames = 3 * fps; // add some blank frames at the end
 
   for (let i = 0; i < nFrames; i += step) {
     // Faster way to make a frame of LEDs of single color
@@ -64,11 +78,12 @@ function makeMovie() {
       if (j === 0) {
         sparkle = 1;
       }
-      if (i - j !== undefined) {
-        let r = 0;
-        let g = 0;
-        let b = 255;
-        leds[i - j] = new Led(r, g, b)
+      if (leds[i - j] !== undefined) {
+        const r = 0;
+        const g = 0;
+        const b = 255;
+        const w = rgbw ? 0 : undefined;
+        leds[i - j] = new Led(r, g, b, w)
           // .desaturate(1)
           .desaturate(desaturation)
           // .brighten(sparkle)
@@ -84,7 +99,14 @@ function makeMovie() {
     frames.push(new Frame(Array(nLeds).fill(black)));
   }
 
-  let movie = new Movie({ frames, fps, name: "fairy_15fps" });
+  const duration = Math.round(frames.length / fps);
+
+  let movie = new Movie({
+    frames,
+    fps,
+    name: `fairy_${fps}fps_${duration}s`,
+    descriptor_type: type + '_raw'
+  });
 
   return movie;
 }
