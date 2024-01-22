@@ -9,6 +9,8 @@ export declare class Led {
     red: number;
     green: number;
     blue: number;
+    white?: number;
+    private _type;
     /**
      * Creates an instance of the Led class.
      *
@@ -16,7 +18,25 @@ export declare class Led {
      * @param {number} green - Green value (0-255).
      * @param {number} blue - Blue value (0-255).
      */
-    constructor(red: number, green: number, blue: number);
+    constructor(red: number, green: number, blue: number, white?: number);
+    /**
+     * Gets the LED type.
+     * @returns {'rgb'|'rgbw'} The LED type.
+     */
+    get type(): 'rgb' | 'rgbw';
+    /**
+     * Converts the LED to RGBW.
+     *
+     * @returns {Led} The updated Led instance.
+     */
+    toRgbw(): this;
+    /**
+     * Converts the LED to RGB.
+     *
+     * @param {boolean} [preserveWhite] - If true, the white value will be preserved.
+     * @returns {Led} The updated Led instance.
+     */
+    toRgb(preserveWhite?: boolean): this;
     /**
      * Converts the RGB values to a Uint8Array.
      *
@@ -43,7 +63,7 @@ export declare class Led {
      * @param {number} blue - New blue value.
      * @returns {Led} The updated Led instance.
      */
-    setColor(red: number, green: number, blue: number): this;
+    setColor(red: number, green: number, blue: number, white?: number): this;
     /**
      * Inverts the RGB values.
      *
@@ -85,3 +105,4 @@ export declare class Led {
      */
     desaturate(factor: number): this;
 }
+//# sourceMappingURL=led.d.ts.map

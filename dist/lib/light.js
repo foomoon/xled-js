@@ -9,14 +9,14 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 };
 import { generateRandomHex } from "./utils.js";
 import axios from "axios";
-import FetchWrapper from "./fetchwrapper.js";
+import FetchWrapper from "./fetchwrapper";
 import delay from "delay";
 // dynamically import udp for compatibility with browser
 // import * as udp from "node:dgram";
-import { Led } from "./led.js";
-import { Frame } from "./frame.js";
-import { Movie } from "./movie.js";
-import { deviceMode, applicationResponseCode, } from "./interfaces.js";
+import { Led } from "./led";
+import { Frame } from "./frame";
+import { Movie } from "./movie";
+import { deviceMode, applicationResponseCode, } from "./interfaces";
 // create error
 let errNoToken = Error("No valid token");
 /**
@@ -239,8 +239,11 @@ export class Light {
      * @returns {Promise<object>} Results vary, see https://xled-docs.readthedocs.io/en/latest/rest_api.html#device-details
      */
     getDeviceDetails() {
+        var _a, _b;
         return __awaiter(this, void 0, void 0, function* () {
             let data = yield this.sendGetRequest("/gestalt", undefined, false);
+            (_a = this.nleds) !== null && _a !== void 0 ? _a : (this.nleds = data.number_of_led);
+            (_b = this.name) !== null && _b !== void 0 ? _b : (this.name = data.device_name);
             return data;
         });
     }
@@ -271,6 +274,8 @@ export class Light {
      */
     getName() {
         return __awaiter(this, void 0, void 0, function* () {
+            if (this.name)
+                return this.name;
             let data = yield this.sendGetRequest("/device_name");
             let res = data.name;
             return res;

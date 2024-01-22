@@ -22,3 +22,4 @@ export declare function discoverTwinklyDevices(timeout?: number): Promise<Map<st
  * @param device The discovered Twinkly device.
  */
 export declare function handleDiscoveredDevices(): Promise<void>;
+//# sourceMappingURL=discovery.d.ts.map

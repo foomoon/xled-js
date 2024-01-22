@@ -1,9 +1,9 @@
 /// <reference types="node" />
 import { AxiosInstance, AxiosResponse } from "axios";
-import FetchWrapper, { FetchResponse } from "./fetchwrapper.js";
-import { Frame } from "./frame.js";
-import { Movie } from "./movie.js";
-import { rgbColor, hsvColor, deviceMode, timer, coordinate, layout } from "./interfaces.js";
+import FetchWrapper, { FetchResponse } from "./fetchwrapper";
+import { Frame } from "./frame";
+import { Movie } from "./movie";
+import { rgbColor, hsvColor, deviceMode, timer, coordinate, layout } from "./interfaces";
 /**
  * Represents a Twinkly device
  * @public
@@ -16,6 +16,7 @@ export declare class Light {
     token: AuthenticationToken | undefined;
     activeLoginCall: boolean;
     nleds: number | undefined;
+    name: string | undefined;
     udpClient: any;
     /**
      * Creates an instance of Light.
@@ -354,3 +355,4 @@ export declare class OneColorFrame extends Frame {
      */
     constructor(rgb: rgbColor, nleds: number);
 }
+//# sourceMappingURL=light.d.ts.map

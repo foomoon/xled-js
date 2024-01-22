@@ -1,0 +1,1 @@
+{"version":3,"file":"discovery.d.ts","sourceRoot":"","sources":["../../src/lib/discovery.ts"],"names":[],"mappings":"AAIA;;GAEG;AACH,MAAM,WAAW,aAAa;IAC5B,EAAE,EAAE,MAAM,CAAC;IACX,QAAQ,EAAE,MAAM,CAAC;IACjB,IAAI,EAAE,MAAM,CAAC;CACd;AAED;;;;;;;;GAQG;AACH,wBAAgB,sBAAsB,CACpC,OAAO,SAAmB,GACzB,OAAO,CAAC,GAAG,CAAC,MAAM,EAAE,aAAa,CAAC,CAAC,CAsCrC;AAED;;;;GAIG;AACH,wBAAsB,uBAAuB,kBAY5C"}

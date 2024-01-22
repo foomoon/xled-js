@@ -20,3 +20,4 @@ export interface FetchDefaults {
 export interface FetchResponse extends Response {
     data?: any;
 }
+//# sourceMappingURL=fetchwrapper.d.ts.map
