@@ -9,7 +9,7 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 };
 import { generateRandomHex } from "./utils.js";
 import axios from "axios";
-import FetchWrapper from "./fetchwrapper";
+import { FetchWrapper } from "./fetchwrapper";
 import delay from "delay";
 // dynamically import udp for compatibility with browser
 // import * as udp from "node:dgram";

@@ -1,6 +1,6 @@
 /// <reference types="node" />
 import { AxiosInstance, AxiosResponse } from "axios";
-import FetchWrapper, { FetchResponse } from "./fetchwrapper";
+import { FetchWrapper, FetchResponse } from "./fetchwrapper";
 import { Frame } from "./frame";
 import { Movie } from "./movie";
 import { rgbColor, hsvColor, deviceMode, timer, coordinate, layout } from "./interfaces";
