@@ -1,7 +1,7 @@
 import { generateRandomHex } from "./utils.js";
 
 import axios, { AxiosInstance, AxiosResponse } from "axios";
-import FetchWrapper, { FetchResponse } from "./fetchwrapper";
+import { FetchWrapper, FetchResponse } from "./fetchwrapper";
 import delay from "delay";
 // dynamically import udp for compatibility with browser
 // import * as udp from "node:dgram";
