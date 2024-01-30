@@ -697,7 +697,7 @@ export class Light {
             // id must be between 0 and 15
             if (id < 0 || id > 15)
                 throw new Error("ID must be between 0 and 15");
-            let res = yield this.sendPostRequest("/movie/current", id);
+            let res = yield this.sendPostRequest("/movies/current", id);
             return res;
         });
     }

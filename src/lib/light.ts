@@ -668,7 +668,7 @@ export class Light {
   async setCurrentMovie(id: number): Promise<object> {
     // id must be between 0 and 15
     if (id < 0 || id > 15) throw new Error("ID must be between 0 and 15");
-    let res = await this.sendPostRequest("/movie/current", id);
+    let res = await this.sendPostRequest("/movies/current", id);
     return res;
   }
   /**
