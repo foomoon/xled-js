@@ -1,4 +1,4 @@
-export default class FetchWrapper {
+export declare class FetchWrapper {
     private baseURL;
     private timeout;
     defaults: FetchDefaults;
@@ -20,3 +20,5 @@ export interface FetchDefaults {
 export interface FetchResponse extends Response {
     data?: any;
 }
+export default FetchWrapper;
+//# sourceMappingURL=fetchwrapper.d.ts.map

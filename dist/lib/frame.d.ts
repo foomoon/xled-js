@@ -1,4 +1,4 @@
-import { Led } from "./led.js";
+import type { Led } from "./led";
 /**
  * A frame of LEDs, used when you wish to set color pixel by pixel
  *
@@ -28,3 +28,4 @@ export declare class Frame {
      */
     getNLeds(): number;
 }
+//# sourceMappingURL=frame.d.ts.map

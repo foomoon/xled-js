@@ -11,6 +11,9 @@ export class Led {
   red: number;
   green: number;
   blue: number;
+  white?: number;
+
+  private _type: 'rgb'|'rgbw';
 
   /**
    * Creates an instance of the Led class.
@@ -19,10 +22,51 @@ export class Led {
    * @param {number} green - Green value (0-255).
    * @param {number} blue - Blue value (0-255).
    */
-  constructor(red: number, green: number, blue: number) {
+  constructor(red: number, green: number, blue: number, white?: number) {
     this.red = red;
     this.green = green;
     this.blue = blue;
+    this.white = white;
+    this._type = typeof white === 'number' ? 'rgbw' : 'rgb';
+  }
+
+  /**
+   * Gets the LED type.
+   * @returns {'rgb'|'rgbw'} The LED type.
+   */
+  get type(): 'rgb' | 'rgbw' {
+    return this._type;
+  }
+
+  /**
+   * Converts the LED to RGBW.
+   *
+   * @returns {Led} The updated Led instance.
+   */
+  toRgbw(): this {
+    if (this._type === 'rgbw') return this;
+    this.white = 0;
+    this._type = 'rgbw';
+    return this;
+  }
+
+  /**
+   * Converts the LED to RGB.
+   *
+   * @param {boolean} [preserveWhite] - If true, the white value will be preserved.
+   * @returns {Led} The updated Led instance.
+   */
+  toRgb(preserveWhite = false): this {
+    const white = this.white;
+    if (this._type === 'rgb') return this;
+    this.white = undefined;
+    this._type = 'rgb';
+
+    if (white && preserveWhite) {
+      this.brighten(white / 255);
+    }
+
+    return this;
   }
 
   /**
@@ -31,7 +75,11 @@ export class Led {
    * @returns {Uint8Array} The RGB values in a Uint8Array format.
    */
   toOctet(): Uint8Array {
-    return new Uint8Array([this.red, this.green, this.blue]);
+    return new Uint8Array(
+      this._type === 'rgbw'
+      ? [this.white!, this.red, this.green, this.blue]
+      : [this.red, this.green, this.blue]
+    );
   }
 
   /**
@@ -40,7 +88,7 @@ export class Led {
    * @returns {boolean} True if the LED is on, false otherwise.
    */
   isOn(): boolean {
-    return this.red > 0 || this.green > 0 || this.blue > 0;
+    return this.red > 0 || this.green > 0 || this.blue > 0 || this.white! > 0;
   }
 
   /**
@@ -52,6 +100,7 @@ export class Led {
     this.red = 0;
     this.green = 0;
     this.blue = 0;
+    this._type === 'rgbw' && (this.white = 0);
     return this;
   }
 
@@ -63,10 +112,14 @@ export class Led {
    * @param {number} blue - New blue value.
    * @returns {Led} The updated Led instance.
    */
-  setColor(red: number, green: number, blue: number): this {
+  setColor(red: number, green: number, blue: number, white?: number): this {
     this.red = red;
     this.green = green;
     this.blue = blue;
+    if (typeof white === 'number') {
+      this.white = white;
+      this._type = 'rgbw';
+    }
     return this;
   }
 
@@ -79,6 +132,7 @@ export class Led {
     this.red = 255 - this.red;
     this.green = 255 - this.green;
     this.blue = 255 - this.blue;
+    typeof this.white === 'number' && (this.white = 255 - this.white);
     return this;
   }
 
@@ -88,7 +142,7 @@ export class Led {
    * @returns {string} String in the format 'rgb(r, g, b)'.
    */
   toString(): string {
-    return `rgb(${this.red}, ${this.green}, ${this.blue})`;
+    return `${this._type}(${this.red}, ${this.green}, ${this.blue}, ${this.white})`;
   }
 
   /**
@@ -101,6 +155,7 @@ export class Led {
     this.red = Math.min(255, Math.round(this.red * factor));
     this.green = Math.min(255, Math.round(this.green * factor));
     this.blue = Math.min(255, Math.round(this.blue * factor));
+    this._type === 'rgbw' && (this.white = Math.min(255, Math.round((this.white || 0) * factor)));
     return this;
   }
 
@@ -114,6 +169,7 @@ export class Led {
     this.red = Math.max(0, Math.round(this.red * factor));
     this.green = Math.max(0, Math.round(this.green * factor));
     this.blue = Math.max(0, Math.round(this.blue * factor));
+    this._type === 'rgbw' && (this.white = Math.max(0, Math.round((this.white || 0) * factor)));
     return this;
   }
 
@@ -137,6 +193,10 @@ export class Led {
       255,
       Math.max(0, average + factor * (this.blue - average))
     );
+    this._type === 'rgbw' && (this.white = Math.min(
+      255,
+      Math.max(0, average + factor * ((this.white || 0) - average))
+    ));
     return this;
   }
 
@@ -151,7 +211,7 @@ export class Led {
     this.red = this.red + factor * (average - this.red);
     this.green = this.green + factor * (average - this.green);
     this.blue = this.blue + factor * (average - this.blue);
+    this._type === 'rgbw' && (this.white = (this.white || 0) + factor * (average - (this.white || 0)));
     return this;
   }
 }
-

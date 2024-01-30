@@ -1,4 +1,4 @@
-export default class FetchWrapper {
+export class FetchWrapper {
   private baseURL: string;
   private timeout: number;
   public defaults: FetchDefaults = {
@@ -121,3 +121,5 @@ export interface FetchDefaults {
 export interface FetchResponse extends Response {
   data?: any;
 }
+
+export default FetchWrapper;

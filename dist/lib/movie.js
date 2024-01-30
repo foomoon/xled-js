@@ -18,6 +18,7 @@ export class Movie {
         this.leds_per_frame = data.leds_per_frame || this.frameData[0].getNLeds();
         this.frames_number = data.frames_number || this.frameData.length;
         this.fps = data.fps || 0;
+        this._channels = this.descriptor_type.startsWith("rgbw") ? 4 : 3;
         // Not used yet
         this.id = data.id || 0;
         this.loop_type = data.loop_type || 0;
@@ -38,7 +39,7 @@ export class Movie {
         const frames = this.frameData;
         this.frames_number = frames.length;
         this.leds_per_frame = frames[0].getNLeds();
-        const buffer = new ArrayBuffer(this.frames_number * this.leds_per_frame * 3);
+        const buffer = new ArrayBuffer(this.frames_number * this.leds_per_frame * this._channels);
         const output = new Uint8Array(buffer);
         frames.forEach((frame, index) => {
             if (frame.getNLeds() != this.leds_per_frame)
@@ -46,7 +47,7 @@ export class Movie {
             // convert to octet
             let octet = frame.toOctet();
             // add octet to output
-            let offset = index * this.leds_per_frame * 3;
+            let offset = index * this.leds_per_frame * this._channels;
             output.set(octet, offset);
         });
         // this.frameData = output;
@@ -58,12 +59,10 @@ export class Movie {
         this.frameData.forEach((frame) => {
             let leds = frame.leds;
             if (isCompressed) {
-                leds = frame.leds.filter((led) => {
-                    return led.red != 0 && led.green != 0 && led.blue != 0;
-                });
+                leds = frame.leds.filter((led) => led.red || led.green || led.blue || led.white);
             }
             let numNonBlackLeds = leds.length;
-            nBytes += numNonBlackLeds * 3;
+            nBytes += numNonBlackLeds * this._channels;
         });
         return nBytes;
     }

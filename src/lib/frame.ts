@@ -1,4 +1,4 @@
-import { Led } from "./led.js";
+import type { Led } from "./led";
 
 /**
  * A frame of LEDs, used when you wish to set color pixel by pixel
@@ -26,12 +26,13 @@ export class Frame {
    * @returns {Uint8Array}
    */
   toOctet(): Uint8Array {
-    let buffer = new ArrayBuffer(this.leds.length * 3);
-    let output = new Uint8Array(buffer);
+    const channels = this.leds[0].type.length || 3;
+    const buffer = new ArrayBuffer(this.leds.length * channels);
+    const output = new Uint8Array(buffer);
     let offset = 0;
     this.leds.forEach((led) => {
-      output.set(led.toOctet(), offset);
-      offset += 3;
+        output.set(led.toOctet(), offset);
+        offset += channels;
     });
     return output;
   }

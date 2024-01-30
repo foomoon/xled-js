@@ -1,14 +1,14 @@
 import { generateRandomHex } from "./utils.js";
 
 import axios, { AxiosInstance, AxiosResponse } from "axios";
-import FetchWrapper, { FetchResponse } from "./fetchwrapper.js";
+import { FetchWrapper, FetchResponse } from "./fetchwrapper";
 import delay from "delay";
 // dynamically import udp for compatibility with browser
 // import * as udp from "node:dgram";
 
-import { Led } from "./led.js";
-import { Frame } from "./frame.js";
-import { Movie } from "./movie.js";
+import { Led } from "./led";
+import { Frame } from "./frame";
+import { Movie } from "./movie";
 
 import {
   rgbColor,
@@ -18,7 +18,7 @@ import {
   timer,
   coordinate,
   layout,
-} from "./interfaces.js";
+} from "./interfaces";
 
 // create error
 let errNoToken = Error("No valid token");
@@ -35,6 +35,7 @@ export class Light {
   token: AuthenticationToken | undefined;
   activeLoginCall: boolean;
   nleds: number | undefined;
+  name: string | undefined;
   udpClient: any; //udp.Socket;
   /**
    * Creates an instance of Light.
@@ -239,6 +240,8 @@ export class Light {
    */
   async getDeviceDetails(): Promise<object> {
     let data = await this.sendGetRequest("/gestalt", undefined, false);
+    this.nleds ??= data.number_of_led;
+    this.name ??= data.device_name;
     return data;
   }
   /**
@@ -264,6 +267,7 @@ export class Light {
    * @returns {Promise<string>} Name of device
    */
   async getName(): Promise<string> {
+    if (this.name) return this.name;
     let data = await this.sendGetRequest("/device_name");
     let res: string = data.name;
     return res;

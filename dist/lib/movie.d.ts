@@ -1,4 +1,4 @@
-import { Frame } from "./frame.js";
+import type { Frame } from "./frame";
 export declare class Movie {
     id: number;
     name: string;
@@ -9,7 +9,8 @@ export declare class Movie {
     frames_number: number;
     fps: number;
     frameData: Frame[];
-    constructor(data: any);
+    private _channels;
+    constructor(data: Record<string, any>);
     export(): {
         name: string;
         unique_id: string;
@@ -22,3 +23,4 @@ export declare class Movie {
     toOctet(): Uint8Array;
     size(isCompressed?: boolean): number;
 }
+//# sourceMappingURL=movie.d.ts.map

@@ -52,3 +52,4 @@ export interface layout {
     coordinates: coordinate[];
     code: applicationResponseCode;
 }
+//# sourceMappingURL=interfaces.d.ts.map

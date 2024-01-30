@@ -5,3 +5,4 @@ export * from "./lib/movie.js";
 export * from "./lib/light.js";
 export * from "./lib/interfaces.js";
 export * from "./lib/discovery.js";
+export * from "./lib/fetchwrapper.js";

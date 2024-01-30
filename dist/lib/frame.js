@@ -21,12 +21,13 @@ export class Frame {
      * @returns {Uint8Array}
      */
     toOctet() {
-        let buffer = new ArrayBuffer(this.leds.length * 3);
-        let output = new Uint8Array(buffer);
+        const channels = this.leds[0].type.length || 3;
+        const buffer = new ArrayBuffer(this.leds.length * channels);
+        const output = new Uint8Array(buffer);
         let offset = 0;
         this.leds.forEach((led) => {
             output.set(led.toOctet(), offset);
-            offset += 3;
+            offset += channels;
         });
         return output;
     }
