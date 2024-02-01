@@ -656,7 +656,7 @@ export class Light {
    * @returns response from device
    */
   async getCurrentMovie(): Promise<object> {
-    let res = await this.sendGetRequest("/movie/current", {});
+    let res = await this.sendGetRequest("/movies/current", {});
     return res;
   }
   /**

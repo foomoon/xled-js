@@ -682,7 +682,7 @@ export class Light {
      */
     getCurrentMovie() {
         return __awaiter(this, void 0, void 0, function* () {
-            let res = yield this.sendGetRequest("/movie/current", {});
+            let res = yield this.sendGetRequest("/movies/current", {});
             return res;
         });
     }
