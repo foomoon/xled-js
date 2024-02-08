@@ -277,7 +277,7 @@ export declare class Light {
      *
      * @returns response from device
      */
-    getSummary(): Promise<any>;
+    getSummary(): Promise<object>;
     /**
      * Get the current movie
      *
@@ -304,6 +304,16 @@ export declare class Light {
      * @returns
      */
     setNetworkStatus(status: object): Promise<object>;
+    /**
+     *
+     * @returns
+     */
+    scanWifi(): Promise<object>;
+    /**
+     *
+     * @returns
+     */
+    getWifiResults(): Promise<object>;
 }
 /**
  * Represents an authentication token used to login to an xled instance

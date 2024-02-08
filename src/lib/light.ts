@@ -646,7 +646,7 @@ export class Light {
    *
    * @returns response from device
    */
-  async getSummary() {
+  async getSummary(): Promise<object> {
     let res = await this.sendGetRequest("/summary", {});
     return res;
   }
@@ -688,6 +688,24 @@ export class Light {
    */
   async setNetworkStatus(status: object): Promise<object> {
     let res = await this.sendPostRequest("/network/status", status);
+    return res;
+  }
+
+  /**
+   *
+   * @returns
+   */
+  async scanWifi(): Promise<object> {
+    let res = await this.sendGetRequest("/network/scan", {});
+    return res;
+  }
+
+  /**
+   *
+   * @returns
+   */
+  async getWifiResults(): Promise<object> {
+    let res = await this.sendGetRequest("/network/scan_results", {});
     return res;
   }
 }

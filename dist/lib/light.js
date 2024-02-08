@@ -724,6 +724,26 @@ export class Light {
             return res;
         });
     }
+    /**
+     *
+     * @returns
+     */
+    scanWifi() {
+        return __awaiter(this, void 0, void 0, function* () {
+            let res = yield this.sendGetRequest("/network/scan", {});
+            return res;
+        });
+    }
+    /**
+     *
+     * @returns
+     */
+    getWifiResults() {
+        return __awaiter(this, void 0, void 0, function* () {
+            let res = yield this.sendGetRequest("/network/scan_results", {});
+            return res;
+        });
+    }
 }
 /**
  * Represents an authentication token used to login to an xled instance
