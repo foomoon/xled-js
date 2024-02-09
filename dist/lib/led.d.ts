@@ -23,6 +23,7 @@ export declare class Led {
      * @returns {Uint8Array} The RGB values in a Uint8Array format.
      */
     toOctet(): Uint8Array;
+    fromOctet(octet: Uint8Array): void;
     /**
      * Checks if the LED color is turned on (non-zero).
      *

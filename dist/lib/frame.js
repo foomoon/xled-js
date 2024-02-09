@@ -1,3 +1,4 @@
+import { Led } from "./led.js";
 /**
  * A frame of LEDs, used when you wish to set color pixel by pixel
  *
@@ -29,6 +30,15 @@ export class Frame {
             offset += 3;
         });
         return output;
+    }
+    fromOctet(octet) {
+        let offset = 0;
+        this.leds = Array.from({ length: octet.length / 3 }, () => {
+            const led = new Led(0, 0, 0);
+            led.fromOctet(octet.slice(offset, offset + 3));
+            offset += 3;
+            return led;
+        });
     }
     /**
      * Get the number of LEDs in this frame

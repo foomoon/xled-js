@@ -21,6 +21,7 @@ export declare class Frame {
      * @returns {Uint8Array}
      */
     toOctet(): Uint8Array;
+    fromOctet(octet: Uint8Array): void;
     /**
      * Get the number of LEDs in this frame
      *

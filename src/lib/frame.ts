@@ -36,6 +36,16 @@ export class Frame {
     return output;
   }
 
+  fromOctet(octet: Uint8Array) {
+    let offset = 0;
+    this.leds = Array.from({ length: octet.length / 3 }, () => {
+      const led = new Led(0, 0, 0);
+      led.fromOctet(octet.slice(offset, offset + 3));
+      offset += 3;
+      return led;
+    });
+  }
+
   /**
    * Get the number of LEDs in this frame
    *

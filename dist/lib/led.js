@@ -26,6 +26,11 @@ export class Led {
     toOctet() {
         return new Uint8Array([this.red, this.green, this.blue]);
     }
+    fromOctet(octet) {
+        this.red = octet[0];
+        this.green = octet[1];
+        this.blue = octet[2];
+    }
     /**
      * Checks if the LED color is turned on (non-zero).
      *

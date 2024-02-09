@@ -20,5 +20,6 @@ export declare class Movie {
         fps: number;
     };
     toOctet(): Uint8Array;
+    fromOctet(octet: Uint8Array): void;
     size(isCompressed?: boolean): number;
 }

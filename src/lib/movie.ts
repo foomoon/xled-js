@@ -70,6 +70,25 @@ export class Movie {
     // this.frameData = output;
     return output; //.buffer;
   }
+  fromOctet(octet: Uint8Array) {
+    const nFrames = this.frames_number;
+    const nLeds = this.leds_per_frame;
+    const nBytes = nFrames * nLeds * 3;
+    if (octet.length != nBytes)
+      throw new Error(
+        `Octet length (${octet.length}) does not match expected length (${nBytes})`
+      );
+
+    const frames = [];
+    for (let i = 0; i < nFrames; i++) {
+      const offset = i * nLeds * 3;
+      const frameOctet = octet.slice(offset, offset + nLeds * 3);
+      const frame = new Frame([]);
+      frame.fromOctet(frameOctet);
+      frames.push(frame);
+    }
+    this.frameData = frames;
+  }
   size(isCompressed: boolean = false) {
     let nBytes = 0;
     // for each frame, determine number of leds
