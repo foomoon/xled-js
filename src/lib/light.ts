@@ -503,23 +503,31 @@ export class Light {
 
     // Generate the header
     let tokenArray = this.token.getTokenDecoded();
-    let udpHeader = Buffer.alloc(tokenArray.length + 4);
 
-    udpHeader.writeUInt8(0x03); // the version number
-    udpHeader.fill(tokenArray, 1); // the actual token, 8 bytes
-    udpHeader.writeUInt8(0x00, tokenArray.length + 1); // zero blanking
-    udpHeader.writeUInt8(0x00, tokenArray.length + 2); // zero blanking
-    udpHeader.writeUInt8(0x00, tokenArray.length + 3); // number of packets (currently only 1 as i only hav 250 leds)
+    let rawFrame = frame.toOctet();
+    let packetId = 0;
+    do {
+      let framePart = rawFrame.slice(0, 900);
+      rawFrame = rawFrame.slice(900);
 
-    // Generate the body
-    const data = Buffer.alloc(udpHeader.length + frame.getNLeds() * 3);
-    data.fill(udpHeader);
-    data.fill(frame.toOctet(), udpHeader.length);
-    this.udpClient.send(data, 7777, this.ipaddr, (error: any) => {
-      if (error) {
-        console.warn(error);
-      }
-    });
+      let udpHeader = Buffer.alloc(tokenArray.length + 4);
+      udpHeader.writeUInt8(0x03); // the version number
+      udpHeader.fill(tokenArray, 1); // the actual token, 8 bytes
+      udpHeader.writeUInt8(0x00, tokenArray.length + 1); // zero blanking
+      udpHeader.writeUInt8(0x00, tokenArray.length + 2); // zero blanking
+      udpHeader.writeUInt8(packetId, tokenArray.length + 3);
+
+      // Generate the body
+      const data = Buffer.alloc(udpHeader.length + framePart.length);
+      data.fill(udpHeader);
+      data.fill(framePart, udpHeader.length);
+      this.udpClient.send(data, 7777, this.ipaddr, (error: any) => {
+        if (error) {
+          console.warn(error);
+        }
+      });
+      packetId++;
+    } while (rawFrame.length > 0);
   }
   /**
    * Get a list of movies
